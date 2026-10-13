@@ -19,7 +19,7 @@ I started it as my final project for Harvard's CS50P as a command-line program. 
 - Download your history as a CSV file
 - Responsive layout that works on phones
 
-![Progress chart](screenshots/prog.png)
+![Progress chart](screenshots/progress.png)
 
 ## Tech stack
 
