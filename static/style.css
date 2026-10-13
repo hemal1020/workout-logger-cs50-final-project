@@ -1,0 +1,263 @@
+:root {
+    --accent: #ff6b2c;
+    --accent-2: #ffb347;
+    --glass: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Page background ---------- */
+body {
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    color: #f1f1f1;
+    background: linear-gradient(135deg, #0f0c29, #1a1a2e 45%, #24243e);
+    background-attachment: fixed;
+}
+
+/* Soft glowing blobs. Radial gradients are cheap, unlike blur filters. */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.45;
+    z-index: -1;
+    will-change: transform;
+    animation: float 14s ease-in-out infinite alternate;
+}
+body::before {
+    width: 520px;
+    height: 520px;
+    top: -160px;
+    left: -140px;
+    background: radial-gradient(circle, rgba(255, 107, 44, 0.9), transparent 70%);
+}
+body::after {
+    width: 480px;
+    height: 480px;
+    bottom: -160px;
+    right: -140px;
+    background: radial-gradient(circle, rgba(108, 92, 231, 0.9), transparent 70%);
+    animation-delay: -6s;
+}
+
+@keyframes float {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(60px, 40px) scale(1.15); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Header ---------- */
+.brand {
+    font-weight: 700;
+    font-size: 1.6rem;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.subtitle {
+    color: #a8a8c0;
+}
+
+/* ---------- Glass cards ---------- */
+.glass {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    animation: fadeUp 0.6s ease both;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.glass:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* ---------- Stat cards ---------- */
+.stat-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.stat-label {
+    color: #a8a8c0;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* ---------- Personal record cards ---------- */
+.record-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-left: 4px solid var(--accent);
+    border-radius: 14px;
+    padding: 14px 16px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.record-card:hover {
+    transform: translateY(-3px);
+    border-left-color: var(--accent-2);
+}
+.record-name {
+    color: #a8a8c0;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.record-weight {
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.record-weight small {
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+/* ---------- Weekly volume chart ---------- */
+@keyframes grow {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+}
+.chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 14px;
+}
+.bar-col {
+    flex: 1;
+    min-width: 0;
+    max-width: 90px;
+    text-align: center;
+}
+}
+.bar-track {
+    height: 160px;
+    display: flex;
+    align-items: flex-end;
+}
+.bar {
+    width: 100%;
+    min-height: 4px;
+    border-radius: 8px 8px 0 0;
+    background: linear-gradient(180deg, var(--accent-2), var(--accent));
+    transform-origin: bottom;
+    animation: grow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition: filter 0.2s ease;
+}
+.bar:hover {
+    filter: brightness(1.2);
+}
+.bar-value {
+    font-size: 0.75rem;
+    color: #f1f1f1;
+    margin-bottom: 6px;
+}
+.bar-label {
+    font-size: 0.75rem;
+    color: #a8a8c0;
+    margin-top: 6px;
+}
+
+/* ---------- Form ---------- */
+.form-control {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-control::placeholder {
+    color: #8d8da8;
+}
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 44, 0.25);
+}
+
+/* ---------- Buttons ---------- */
+.btn-accent {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border: none;
+    color: #1a1a2e;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-accent:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(255, 107, 44, 0.4);
+    color: #1a1a2e;
+}
+.btn-accent:active {
+    transform: scale(0.97);
+}
+.btn-download {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent-2);
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.btn-download:hover {
+    background: var(--accent);
+    color: #1a1a2e;
+    transform: translateY(-2px);
+}
+
+/* ---------- Table ---------- */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #f1f1f1;
+    --bs-table-hover-bg: rgba(255, 107, 44, 0.12);
+    --bs-table-hover-color: #fff;
+    --bs-table-border-color: rgba(255, 255, 255, 0.08);
+}
+.table thead th {
+    color: var(--accent-2);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--glass-border);
+}
+.table tbody tr {
+    animation: fadeUp 0.5s ease both;
+    transition: transform 0.2s ease;
+}
+.table tbody tr:hover {
+    transform: translateX(6px);
+}
+
+/* ---------- Error message ---------- */
+.alert-glass {
+    background: rgba(220, 53, 69, 0.18);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    color: #ffb3bb;
+    border-radius: 12px;
+}
+
+/* ---------- Accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
