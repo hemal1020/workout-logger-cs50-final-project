@@ -70,7 +70,7 @@ There is one test for each core function, using small hand-made lists so the exp
 ## Getting started
 
 ```
-git clone https://github.com/YOUR-USERNAME/workout-logger.git
+git clone https://github.com/Yhemal1020/workout-logger.git
 cd workout-logger
 pip install -r requirements.txt
 ```
