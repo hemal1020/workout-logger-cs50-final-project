@@ -1,21 +1,125 @@
 # Workout Logger
-#### Video Demo: https://youtu.be/7CsV8kyAOyQ?si=ZqHBrFZs4nJ_wYHK
+#### Video Demo: <PASTE YOUR YOUTUBE URL HERE>
 #### Description:
-Workout Logger is a command-line program I made to keep track of my gym workouts. I used to forget how much weight I lifted in my previous sessions, and sometimes I couldn't remember how many sets or reps I had completed. Because of this, it was hard to keep track of my progress. I wanted something simple that could help me organize my workouts, so I decided to build this program.
 
-With Workout Logger, I can save my exercises along with the number of sets, reps, and weight I use. I can also check my workout history, find my heaviest lift for a particular exercise, and see how much total weight I have lifted each week. These features make it easier for me to keep everything in one place.
+Workout Logger is a small app for tracking gym workouts. You log an exercise with its sets, reps and weight, and the app shows your history, your personal record for each exercise, your total weight lifted per week, and a progress line for any exercise.
 
-When I run the program, it shows a menu with five options: log a workout, view history, view a personal record, view weekly volume, and quit. I can choose different options as many times as I want until I decide to exit. My workout data is saved in a file called workouts.csv, which the program creates automatically when I save my first workout.
+I started it as my final project for Harvard's CS50P as a command-line program. After finishing the course, I added a Flask web interface on top of the same code. Both versions share the same functions and the same data file, so you can log a workout in the terminal and see it in the browser.
 
-The main code is written in project.py. I divided the program into different functions so each one has a specific job. The validate_entry function checks the information I enter and makes sure the values are valid. The save_workout function saves the workout to the CSV file, and load_workouts reads the saved information when I need it. The personal_record function finds the heaviest weight I have recorded for an exercise, while weekly_volume calculates my total workout volume for each week.
+![Home page](screenshots/home.png)
 
-I also wrote tests in test_project.py to make sure the functions work correctly. I tested valid and invalid inputs, saving and loading workouts, finding personal records, and calculating weekly volume. For file-related tests, I used pytest's tmp_path fixture so that the tests would not change my actual workout data.
+## Features
 
-I chose CSV because it is easy to use, does not require extra libraries, and lets me open my data in a spreadsheet if needed. I also used separate functions to make the code easier to test and maintain. Dates are saved in YYYY-MM-DD format, and I allow a weight of zero for exercises that do not require extra weights, such as push-ups.
+- Log workouts with validation (no empty names, no zero reps, no negative weights)
+- Personal record for every exercise
+- Weekly volume bar chart (sets × reps × weight, grouped by ISO week)
+- Progress line chart for any exercise, showing the heaviest weight per day
+- Exercise suggestions based on what you have logged before
+- Delete a workout, with a confirmation prompt
+- Download your history as a CSV file
+- Responsive layout that works on phones
 
-One challenge was making sure the program handled incorrect input and missing files properly instead of crashing. Testing the functions separately helped me find and handle these situations.
+![Progress chart](screenshots/progress.png)
 
-There are still a few things I would like to improve. Right now, I cannot edit or delete a workout, and the program only supports kilograms. If I work on it more, I would like to add those features and include charts to make tracking progress easier.
+## Tech stack
 
-Overall, this project gave me a chance to practice Python while building something useful for my everyday life. It also helped me understand the importance of testing code and organizing a program into smaller, manageable functions.
+- **Python 3** for all the logic
+- **Flask** and **Jinja2** for the web interface
+- **HTML, CSS and a little JavaScript**, with **Bootstrap 5** for layout
+- **Inline SVG** and CSS for the charts, with no chart library
+- **CSV** file for storage (`workouts.csv`)
+- **pytest** for tests
 
+## Project structure
+
+```
+workout-logger/
+├── project.py          # core logic and the terminal menu
+├── test_project.py     # pytest tests for the core functions
+├── app.py              # Flask web app
+├── templates/
+│   └── index.html      # the page
+├── static/
+│   └── style.css       # styling and animations
+├── screenshots/        # images used in this README
+├── requirements.txt
+└── README.md
+```
+
+### project.py
+
+This file holds the logic, and none of it depends on the interface:
+
+- `validate_entry` cleans the raw text and raises `ValueError` for bad input.
+- `save_workout` appends one workout to the CSV file and writes the header if the file is new.
+- `load_workouts` reads the file back into a list of dictionaries with real numbers.
+- `delete_workout` removes one workout by its position in the file.
+- `personal_record` returns the heaviest weight for an exercise.
+- `weekly_volume` totals sets × reps × weight for each ISO week.
+- `exercise_progress` returns the heaviest weight per day for one exercise.
+- `main` runs the terminal menu.
+
+### app.py
+
+The Flask app calls the functions above. It handles the form submission, the delete and download routes, and prepares the data for the stats cards and charts.
+
+### test_project.py
+
+There is one test for each core function, using small hand-made lists so the expected answers can be checked by hand. The file-related tests use pytest's `tmp_path`, so they never touch real data.
+
+## Getting started
+
+```
+git clone https://github.com/YOUR-USERNAME/workout-logger.git
+cd workout-logger
+pip install -r requirements.txt
+```
+
+Run the web app:
+
+```
+python app.py
+```
+
+Then open http://127.0.0.1:5000 in your browser.
+
+Run the terminal version:
+
+```
+python project.py
+```
+
+Run the tests:
+
+```
+pytest test_project.py
+```
+
+## Design choices
+
+- **Logic is separate from the interface.** The functions take arguments and return values instead of printing, which makes them easy to test and lets the terminal and web versions share them.
+- **Validation happens on the server.** The browser limits the inputs, but `validate_entry` makes the final decision, since browser checks can be bypassed.
+- **CSV instead of a database.** It needs no setup, and the file opens in Excel or Google Sheets. The tradeoff is that it suits one person on one machine.
+- **Dates are stored as `YYYY-MM-DD`.** They sort correctly as text and are easy to group by week.
+- **Deleting uses POST.** A plain link could delete a workout by accident, for example if a browser pre-loads it.
+- **Light animations.** The page uses gradients and `transform` animations instead of heavy blur effects, so it stays smooth.
+
+## Limitations
+
+- Exercise names must be spelled the same way each time, or they count as different exercises. The suggestion dropdown helps with this.
+- Delete uses a row's position in the file, so with the page open in two tabs, the second tab can point at the wrong row until it is refreshed.
+- Weights are shown in kg only.
+- The progress chart spaces points evenly in date order, not by the real gap between dates.
+- One CSV file means one user. A public deployment would need a database.
+
+## Ideas for the future
+
+- Edit existing workouts
+- kg/lb toggle
+- A database (SQLite) and user accounts
+- Streaks and weekly goals
+- Deploying a live demo
+
+## About
+
+Built by YOUR NAME, [GitHub](https://github.com/YOUR-USERNAME), Dhaka, Bangladesh. The original version is my final project for CS50P (Harvard's Introduction to Programming with Python).
