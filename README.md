@@ -1,5 +1,5 @@
 # Workout Logger
-#### Video Demo: <PASTE YOUR YOUTUBE URL HERE>
+#### Video Demo: https://youtu.be/7CsV8kyAOyQ?si=n65wlUTiDBx0OgwO
 #### Description:
 
 Workout Logger is a small app for tracking gym workouts. You log an exercise with its sets, reps and weight, and the app shows your history, your personal record for each exercise, your total weight lifted per week, and a progress line for any exercise.
@@ -122,4 +122,4 @@ pytest test_project.py
 
 ## About
 
-Built by YOUR NAME, [GitHub](https://github.com/YOUR-USERNAME), Dhaka, Bangladesh. The original version is my final project for CS50P (Harvard's Introduction to Programming with Python).
+Built by Md. Hemal Ahmed, [GitHub](https://github.com/hemal1020), Dhaka, Bangladesh. The original version is my final project for CS50P (Harvard's Introduction to Programming with Python).
